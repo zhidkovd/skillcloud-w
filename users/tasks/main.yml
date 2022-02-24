@@ -12,6 +12,7 @@
   user:
           name: "{{ skillcloud.users[1] }}"
           state: present
+          groups: sudo
           password: "{{ skillcloud.passwords[1] | password_hash('sha512') }}"
           shell: /bin/bash
           createhome: yes
