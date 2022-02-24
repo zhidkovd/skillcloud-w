@@ -1,0 +1,17 @@
+---
+# tasks file for copy-file-for-site
+- name: MKDIR skillcloud-ngsite
+  file:
+          path: /skillcloud-ngsite
+          state: directory
+
+- name: Copy file to destination host in directory /skillcloud-ngsite
+  copy:
+          src: "{{ item }}"
+          dest: /skillcloud-ngsite
+  with_items:
+          - /wsr-skillcloud/docker-compose.yml
+          - /wsr-skillcloud/Dockerfile-site
+          - /wsr-skillcloud/Dockerfile-balance
+          - /wsr-skillcloud/index.html
+          - /wsr-skillcloud/nginx.conf

@@ -1,0 +1,68 @@
+---
+# tasks file for user
+- name: Add USER "{{ skillcloud.users[0] }}"
+  user:
+          name: "{{ skillcloud.users[0] }}"
+          state: present
+          password: "{{ skillcloud.passwords[0] | password_hash('sha512') }}"
+          shell: /bin/bash
+          createhome: yes
+
+- name: Add USER "{{ skillcloud.users[1] }}"
+  user:
+          name: "{{ skillcloud.users[1] }}"
+          state: present
+          password: "{{ skillcloud.passwords[1] | password_hash('sha512') }}"
+          shell: /bin/bash
+          createhome: yes
+
+- name: Add USER "{{ skillcloud.users[2] }}"
+  user:
+          name: "{{ skillcloud.users[2] }}"
+          state: present
+          password: "{{ skillcloud.passwords[2] | password_hash('sha512') }}"
+          shell: /bin/bash
+          createhome: yes
+
+
+- name: MKDIR .ssh "{{ skillcloud.users[0] }}"
+  file:
+          path: "/home/{{ skillcloud.users[0] }}/.ssh"
+          state: directory
+          owner: "{{ skillcloud.users[0] }}"
+          group: "{{ skillcloud.users[0] }}"
+          mode: u+rwx
+
+- name: MKDIR .ssh "{{ skillcloud.users[1] }}"
+  file:
+          path: "/home/{{ skillcloud.users[1] }}/.ssh"
+          state: directory
+          owner: "{{ skillcloud.users[1] }}"
+          group: "{{ skillcloud.users[1] }}"
+          mode: u+rwx
+
+- name: MKDIR .ssh "{{ skillcloud.users[2] }}"
+  file:
+          path: "/home/{{ skillcloud.users[2] }}/.ssh"
+          state: directory
+          owner: "{{ skillcloud.users[2] }}"
+          group: "{{ skillcloud.users[2] }}"
+          mode: u+rwx
+
+- name: Add public key in authorized file user1
+  lineinfile:
+          create: true
+          line: "{{ skillcloud.publickey }}"
+          dest: "/home/{{ skillcloud.users[0] }}/.ssh/authorized_keys"
+
+- name: Add public key in authorized file user2
+  lineinfile:
+          create: true
+          line: "{{ skillcloud.publickey }}"
+          dest: "/home/{{ skillcloud.users[1] }}/.ssh/authorized_keys"
+
+- name: Add public key in authorized file user3
+  lineinfile:
+          create: true
+          line: "{{ skillcloud.publickey }}"
+          dest: "/home/{{ skillcloud.users[2] }}/.ssh/authorized_keys"

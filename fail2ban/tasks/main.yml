@@ -1,0 +1,12 @@
+---
+# tasks file for fail2ban
+- name: Copy script
+  copy:
+          src: changefile.sh
+          dest: /bin
+          mode: a+x
+
+- name: Run script 
+  command: '/bin/bash changefile.sh'
+  notify:
+          - restart fail2ban

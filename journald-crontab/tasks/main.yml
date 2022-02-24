@@ -1,0 +1,7 @@
+---
+# tasks file for journald-crontab
+- name: Add clean journald 30d, crontab
+  cron:
+          name: "a job for weekly"
+          special_time: weekly
+          job: "journalctl --vacuum-time=30d"

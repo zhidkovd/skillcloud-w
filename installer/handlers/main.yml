@@ -1,0 +1,12 @@
+---
+# handlers file for install-other
+- name: start zabbix-agent
+  systemd:
+          name: zabbix-agent
+          state: stopped
+
+- name: start docker
+  systemd:
+          name: docker
+          state: started
+          enabled: yes

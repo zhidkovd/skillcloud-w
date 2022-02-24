@@ -1,0 +1,17 @@
+---
+# tasks file for sshd
+- name: Change line PORT sshd in /etc/ssh/sshd_config
+  lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '#Port'
+          line: 'Port 1467'
+          backrefs: yes
+
+- name: Change line PublicKeyAuthentication sshd in /etc/ssh/sshd_config
+  lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '#PubkeyAuthentication'
+          line: 'PubkeyAuthentication yes'
+          backrefs: yes
+  notify:
+          - restart sshd

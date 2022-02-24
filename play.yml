@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+          - ./timedatectl
+          - ./rsyslog-localhost
+
+- hosts: vm
+  become: yes
+  vars_files:
+          - /wsr-skillcloud/Users/privvars.yml
+  roles:
+          - ./installer
+          - ./journald-crontab
+          - ./users
+          - ./fail2ban
+          - ./timedatectl
+          - ./rsyslog-vm
+          - ./copy-file-for-site
+          - ./sshd
+          - ./ufw 

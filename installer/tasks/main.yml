@@ -1,0 +1,70 @@
+---
+# tasks file for installer
+- name: Apt Update
+  apt: update_cache=yes force_apt_get=yes
+
+- name: Install packages
+  apt:
+          name:
+                  - curl
+                  - fail2ban
+                  - rsyslog
+                  - apt-transport-https
+                  - ca-certificates
+                  - gnupg-agent
+                  - software-properties-common
+          state: present
+          update_cache: true
+
+# Optional docker
+
+- name: add GPG-key docker
+  apt_key:
+          url: https://download.docker.com/linux/ubuntu/gpg
+          state: present
+
+- name: add repository docker
+  apt_repository:
+          repo: deb https://download.docker.com/linux/ubuntu bionic stable
+          state: present
+
+- name: Install docker
+  apt:
+          name:
+                  - docker-ce
+                  - docker-ce-cli
+                  - containerd.io
+          state: present
+          update_cache: true
+  notify:
+          - start docker
+
+# Optional zabbix-agent
+
+- name: Install a .deb package zabbix-agent
+  get_url:
+          url: https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
+          dest: /tmp/zabbix-agent.deb
+
+- name: Install a .deb package zabbix-agent
+  apt:
+    deb: /tmp/zabbix-agent.deb
+
+- name: Install zabbix-agent
+  apt:
+          name: zabbix-agent 
+          state: present
+          update_cache: true
+  notify:
+          - start zabbix-agent
+
+# Optional docker-compose
+
+- name: Copy script to install docker-compose
+  copy:
+          src: /wsr-skillcloud/docker-compose.sh
+          dest: /bin
+          mode: a+x
+
+- name: Run cript to install docker-compose
+  command: '/bin/bash docker-compose.sh'
