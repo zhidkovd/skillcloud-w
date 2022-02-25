@@ -104,6 +104,12 @@
             shell: "cat /home/Webdeveloper/.ssh/authorized_keys && cat /home/Devopsengineer/.ssh/authorized_keys && cat /home/Projectmanager/.ssh/authorized_keys"
             register: keys_check
 
+          - name: Sudo group membership check
+            shell: "cat /etc/group | grep sudo"
+            register: sudo_group_membership
+            
+          - debug: var=sudo_group_membership.stdout_lines
+
           - debug: var=keys_check.stdout_lines
 
           - name: Checking that docker-compose is installed using the docker-compose script
