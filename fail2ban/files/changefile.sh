@@ -2,7 +2,7 @@
 
 cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
-echo "[ssh]
+echo "[sshd]
 enabled = true
 findtime = 3600
 maxretry = 6
